@@ -1,42 +1,36 @@
-<?php require("cabecalho.php"); ?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estimativa de Custos do Projeto</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 50px; }
+        .container { max-width: 400px; margin: auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+        .resultado { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Estimativa de Custos do Projeto</h2>
+        <form method="post">
+            <input type="number" name="horas_previstas" placeholder="Horas Previstas" required step="0.01">
+            <input type="number" name="taxa_por_hora" placeholder="Taxa por Hora" required step="0.01">
+            <input type="number" name="custos_adicionais" placeholder="Custos Adicionais" required step="0.01">
+            <input type="submit" value="Calcular Custos">
+        </form>
 
-<h1>Atividade 6 - Estimativa de Custos do Projeto</h1>
+        <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $horas_previstas = $_POST['horas_previstas'];
+            $taxa_por_hora = $_POST['taxa_por_hora'];
+            $custos_adicionais = $_POST['custos_adicionais'];
 
-<form action="exer6.php" method="post">
-    <div class="row">
-        <div class="col">
-            <label for="horas_previstas" class="form-label">Horas Previstas:</label>
-            <input type="number" name="horas_previstas" id="horas_previstas" class="form-control" required />
-        </div>
-        <div class="col">
-            <label for="taxa_hora" class="form-label">Taxa por Hora (R$):</label>
-            <input type="number" step="0.01" name="taxa_hora" id="taxa_hora" class="form-control" required />
-        </div>
-        <div class="col">
-            <label for="custos_adicionais" class="form-label">Custos Adicionais (R$):</label>
-            <input type="number" step="0.01" name="custos_adicionais" id="custos_adicionais" class="form-control" required />
-        </div>
+            $custo_total = ($horas_previstas * $taxa_por_hora) + $custos_adicionais;
+
+            echo "<div class='resultado'>Custo Total do Projeto: " . number_format($custo_total, 2, ',', '.') . " R$</div>";
+        }
+        ?>
     </div>
-
-    <div class="row mt-3">
-        <div class="col">
-            <button type="submit" class="btn btn-primary">Calcular Custos</button>
-        </div>
-    </div>
-</form>
-
-<?php 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $horas_previstas = floatval($_POST['horas_previstas']);
-    $taxa_hora = floatval($_POST['taxa_hora']);
-    $custos_adicionais = floatval($_POST['custos_adicionais']);
-
-    $custo_mao_obra = $horas_previstas * $taxa_hora;
-    $custo_total_projeto = $custo_mao_obra + $custos_adicionais;
-
-    echo "<div class='alert alert-info'>Custo de Mão de Obra: R$ " . number_format($custo_mao_obra, 2, ',', '.') . "</div>";
-    echo "<div class='alert alert-info'>Custo Total do Projeto: R$ " . number_format($custo_total_projeto, 2, ',', '.') . "</div>";
-}
-
-require("rodape.php"); 
-?>
+</body>
+</html>
