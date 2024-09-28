@@ -1,36 +1,31 @@
-<?php require("cabecalho.php"); ?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo de Dias de Férias</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 50px; }
+        .container { max-width: 400px; margin: auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+        .resultado { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Cálculo de Dias de Férias</h2>
+        <form method="post">
+            <input type="number" name="dias_trabalhados" placeholder="Total de Dias Trabalhados" required>
+            <input type="submit" value="Calcular Férias">
+        </form>
 
-<h1>Cálculo de Dias de Férias</h1>
-
-<form action="exer5.php" method="post">
-    <div class="row">
-        <div class="col">
-            <label for="dias_trabalhados" class="form-label">Informe a quantidade de dias trabalhados:</label>
-            <input type="number" name="dias_trabalhados" id="dias_trabalhados" class="form-control" required />
-        </div>
+        <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $dias_trabalhados = $_POST['dias_trabalhados'];
+            $ferias = floor($dias_trabalhados / 30);
+            if ($ferias > 30) $ferias = 30; // Limite de 30 dias
+            echo "<div class='resultado'>Dias de Férias: $ferias</div>";
+        }
+        ?>
     </div>
-
-    <div class="row mt-3">
-        <div class="col">
-            <button type="submit" class="btn btn-danger">Calcular Férias</button>
-        </div>
-    </div>
-</form>
-
-<?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $diasTrabalhados = intval($_POST['dias_trabalhados']);
-    
-    // Calcula os dias de férias
-    $diasFerias = floor($diasTrabalhados / 30);
-    
-    // Limita o máximo de dias de férias a 30
-    if ($diasFerias > 30) {
-        $diasFerias = 30;
-    }
-    
-    echo "<div class='alert alert-info'>O funcionário tem direito a $diasFerias dias de férias.</div>";
-}
-
-require("rodape.php");
-?>
+</body>
+</html>
